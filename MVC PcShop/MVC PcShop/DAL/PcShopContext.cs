@@ -12,15 +12,16 @@ namespace MVC_PcShop.DAL
     
     public class PcShopContext : DbContext
     {
-        
-        public PcShopContext() : base("PcShopContext")
-        {
-        }
         //If models change drop existing database and create a new one
         protected void Application_Start(object sender, EventArgs e)
         {
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<PcShopContext>());
         }
+
+        public PcShopContext() : base("PcShopContext")
+        {
+        }
+        
         public DbSet<PcComponent> PcComponents { get; set; }
         public DbSet<Category> Categories { get; set; }
 

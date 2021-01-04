@@ -13,7 +13,7 @@ namespace MVC_PcShop.Models
         
         public int ID { get; set; }
 
-        public string Name { get; set; }
+        public string CategoryName { get; set; }
 
        public virtual ICollection<PcComponent> PcComponents { get; set; }
     }

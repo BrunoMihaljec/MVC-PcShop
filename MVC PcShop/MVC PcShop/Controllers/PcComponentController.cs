@@ -22,6 +22,7 @@ namespace MVC_PcShop.Controllers
             return View(pcComponents.ToList());
         }
 
+
         // GET: PcComponent/Details/5
         public ActionResult Details(int? id)
         {
@@ -40,7 +41,7 @@ namespace MVC_PcShop.Controllers
         // GET: PcComponent/Create
         public ActionResult Create()
         {
-            ViewBag.CategoryID = new SelectList(db.Categories, "ID", "Name");
+            ViewBag.CategoryID = new SelectList(db.Categories, "ID", "CategoryName");
             return View();
         }
 
@@ -49,16 +50,24 @@ namespace MVC_PcShop.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Type,Name,Manufacturer,Price,CategoryID")] PcComponent pcComponent)
+        public ActionResult Create([Bind(Include = "Type,Name,Manufacturer,Price,CategoryID")] PcComponent pcComponent)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.PcComponents.Add(pcComponent);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.PcComponents.Add(pcComponent);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch(DataException /* dex */)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
 
-            ViewBag.CategoryID = new SelectList(db.Categories, "ID", "Name", pcComponent.CategoryID);
+            ViewBag.CategoryID = new SelectList(db.Categories, "ID", "CategoryName", pcComponent.CategoryID);
             return View(pcComponent);
         }
 
@@ -74,7 +83,7 @@ namespace MVC_PcShop.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CategoryID = new SelectList(db.Categories, "ID", "Name", pcComponent.CategoryID);
+            ViewBag.CategoryID = new SelectList(db.Categories, "ID", "CategoryName", pcComponent.CategoryID);
             return View(pcComponent);
         }
 
@@ -91,16 +100,20 @@ namespace MVC_PcShop.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CategoryID = new SelectList(db.Categories, "ID", "Name", pcComponent.CategoryID);
+            ViewBag.CategoryID = new SelectList(db.Categories, "ID", "CategoryName", pcComponent.CategoryID);
             return View(pcComponent);
         }
 
         // GET: PcComponent/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, bool? saveChangesError = false)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewBag.ErrorMessage = "Delete failed. Try again, and if the problem persists see your system administrator.";
             }
             PcComponent pcComponent = db.PcComponents.Find(id);
             if (pcComponent == null)
