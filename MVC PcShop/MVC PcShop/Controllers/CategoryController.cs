@@ -6,8 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using MVC_PcShop.DAL;
 using MVC_PcShop.Models;
+using PagedList;
 
 namespace MVC_PcShop.Controllers
 {
@@ -15,16 +17,30 @@ namespace MVC_PcShop.Controllers
     {
         private PcShopContext db = new PcShopContext();  
 
-        public ViewResult Index(string SearchStringCategory)
+        public ViewResult Index(string SearchStringCategory, int? page, string currentFilter)
         {
             IList<Category> sortedList = db.Categories.ToList();
+
+            if (SearchStringCategory != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                SearchStringCategory = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = SearchStringCategory;
 
             if (!String.IsNullOrEmpty(SearchStringCategory))
             {
                 sortedList = sortedList.Where(s => s.CategoryName.ToLower().Contains(SearchStringCategory.ToLower())).ToList();
                                        
             }
-            return View(sortedList);
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+
+            return View(sortedList.ToPagedList(pageNumber, pageSize));
         }
         
 

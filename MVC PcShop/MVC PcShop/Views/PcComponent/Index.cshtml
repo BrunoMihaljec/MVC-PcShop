@@ -1,10 +1,13 @@
-﻿@model IEnumerable<MVC_PcShop.Models.PcComponent>
+﻿
+@model PagedList.IPagedList<MVC_PcShop.Models.PcComponent>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "PcComponents";
 }
 
-<h2>Index</h2>
+<h2>Pc Components</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -12,30 +15,28 @@
 @using (Html.BeginForm())
 {
     <p>
-        Pc Component: @Html.TextBox("SearchString")
+        Pc Component: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        Price Range: @Html.TextBox("lowerPrice")  @Html.TextBox("higherPrice")
         <input type="submit" value="Search" />
     </p>
-    <p>
-        Price Range: @Html.TextBox("lowerPrice")  @Html.TextBox("higherPrice")
-        <input type="submit" value="Filter" />
-    </p>
+
 }
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Category.CategoryName)
+            Category Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Type)
+            Type
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Manufacturer)
+            Manufacturer
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Price)
+            Price
         </th>
         <th></th>
     </tr>
@@ -67,3 +68,7 @@
     }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, currentFilter = ViewBag.CurrentFilter }))

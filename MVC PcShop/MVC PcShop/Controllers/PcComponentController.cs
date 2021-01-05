@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MVC_PcShop.DAL;
 using MVC_PcShop.Models;
+using PagedList;
 
 namespace MVC_PcShop.Controllers
 {
@@ -16,45 +17,43 @@ namespace MVC_PcShop.Controllers
         private PcShopContext db = new PcShopContext();
 
         // GET: PcComponent
-        public ActionResult Index(int? id, string searchString, double? lowerPrice, double? higherPrice)
+        public ActionResult Index(int? id, string searchString, double? lowerPrice, double? higherPrice, int? page, string currentFilter)
         {
             IList<PcComponent> sortedList = db.PcComponents.ToList();
-            
 
-            if (!String.IsNullOrEmpty(searchString) && (id == null))
+            if (searchString != null)
             {
-                sortedList = sortedList.Where(s => (s.Name.Contains(searchString))
-                                                || (s.Manufacturer.Contains(searchString))).ToList();
-                return View(sortedList);
-            }
-            if((lowerPrice != null) && (higherPrice != null))
-            {
-                sortedList = sortedList.Where(s => (s.Price >= lowerPrice && s.Price <= higherPrice)).ToList();
-               
-                return View(sortedList);
-            }
-            
-            if (id != null)
-            {
-                sortedList = sortedList.Where(s => s.CategoryID == (id)).ToList();
-
-                if (!String.IsNullOrEmpty(searchString))
-                {
-                    sortedList = sortedList.Where(s => (s.Name.Contains(searchString))
-                                                 || (s.Manufacturer.Contains(searchString))).ToList();
-                    return View(sortedList);
-                }
-                else
-                {
-                    return View(sortedList);
-                }
+                page = 1;
             }
             else
             {
-                return View(sortedList);
+                searchString = currentFilter;
             }
-            
-            
+
+
+            ViewBag.CurrentFilter = searchString;
+            if (id != null)
+            {                
+                sortedList = sortedList.Where(s => s.CategoryID == id).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+               
+                sortedList = sortedList.Where(s => s.Name.ToLower().Contains(searchString.ToLower())
+                                                || s.Manufacturer.ToLower().Contains(searchString.ToLower())).ToList();                                             
+            }
+           
+
+            if ((lowerPrice != null) && (higherPrice != null))
+            {
+                sortedList = sortedList.Where(s => (s.Price >= lowerPrice && s.Price <= higherPrice)).ToList();             
+            }
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+
+            return View(sortedList.ToPagedList(pageNumber, pageSize));  
         }
 
 
