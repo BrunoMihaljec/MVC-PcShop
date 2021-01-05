@@ -16,10 +16,41 @@ namespace MVC_PcShop.Controllers
         private PcShopContext db = new PcShopContext();
 
         // GET: PcComponent
-        public ActionResult Index()
+        public ActionResult Index(int? id, string searchString)
         {
             var pcComponents = db.PcComponents.Include(p => p.Category);
-            return View(pcComponents.ToList());
+            var sortedlist = from s in db.PcComponents
+                             select s;
+            var sortedlistAll = from s in db.PcComponents
+                             select s;
+
+            if (!String.IsNullOrEmpty(searchString) && (id == null))
+            {
+                sortedlistAll = sortedlistAll.Where(s => (s.Name.Contains(searchString))
+                                             || (s.Manufacturer.Contains(searchString)));
+                return View(sortedlistAll.ToList());
+            }
+            
+            if (id != null)
+            {
+                sortedlist = sortedlist.Where(s => s.CategoryID == (id));
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    sortedlist = sortedlist.Where(s => (s.Name.Contains(searchString))
+                                                 || (s.Manufacturer.Contains(searchString)));
+                    return View(sortedlist.ToList());
+                }
+                else
+                {
+                    return View(sortedlist.ToList());
+                }
+            }
+            else
+            {
+                return View(sortedlist.ToList());
+            }
+            
+            
         }
 
 

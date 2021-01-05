@@ -13,26 +13,20 @@ namespace MVC_PcShop.Controllers
 {
     public class CategoryController : Controller
     {
-        private PcShopContext db = new PcShopContext();
+        private PcShopContext db = new PcShopContext();  
 
-        // GET: Category
-        public ActionResult Index()
+        public ViewResult Index(string SearchStringCategory)
         {
-            return View(db.Categories.ToList());
+            var categories = from s in db.Categories
+                             select s;
+            if (!String.IsNullOrEmpty(SearchStringCategory))
+            {
+                categories = categories.Where(s => s.CategoryName.Contains(SearchStringCategory));
+                                       
+            }
+            return View(categories.ToList());
         }
-
-        [HttpPost]
-        public string Index(string searchString, bool notUsed)
-        {
-            return "From [HttpPost]Index: filter on " + searchString;
-        }
-
-        public ActionResult CategoryList()
-        {
-            var categories = db.Categories.Where(x => x.ID == x.ID).ToList();
-
-            return View(categories);
-        }
+        
 
 
         // GET: Category/Details/5
