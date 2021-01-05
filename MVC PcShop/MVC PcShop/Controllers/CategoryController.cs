@@ -17,14 +17,14 @@ namespace MVC_PcShop.Controllers
 
         public ViewResult Index(string SearchStringCategory)
         {
-            var categories = from s in db.Categories
-                             select s;
+            IList<Category> sortedList = db.Categories.ToList();
+
             if (!String.IsNullOrEmpty(SearchStringCategory))
             {
-                categories = categories.Where(s => s.CategoryName.Contains(SearchStringCategory));
+                sortedList = sortedList.Where(s => s.CategoryName.ToLower().Contains(SearchStringCategory.ToLower())).ToList();
                                        
             }
-            return View(categories.ToList());
+            return View(sortedList);
         }
         
 

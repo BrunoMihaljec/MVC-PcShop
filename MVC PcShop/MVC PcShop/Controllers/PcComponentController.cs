@@ -16,38 +16,42 @@ namespace MVC_PcShop.Controllers
         private PcShopContext db = new PcShopContext();
 
         // GET: PcComponent
-        public ActionResult Index(int? id, string searchString)
+        public ActionResult Index(int? id, string searchString, double? lowerPrice, double? higherPrice)
         {
-            var pcComponents = db.PcComponents.Include(p => p.Category);
-            var sortedlist = from s in db.PcComponents
-                             select s;
-            var sortedlistAll = from s in db.PcComponents
-                             select s;
+            IList<PcComponent> sortedList = db.PcComponents.ToList();
+            
 
             if (!String.IsNullOrEmpty(searchString) && (id == null))
             {
-                sortedlistAll = sortedlistAll.Where(s => (s.Name.Contains(searchString))
-                                             || (s.Manufacturer.Contains(searchString)));
-                return View(sortedlistAll.ToList());
+                sortedList = sortedList.Where(s => (s.Name.Contains(searchString))
+                                                || (s.Manufacturer.Contains(searchString))).ToList();
+                return View(sortedList);
+            }
+            if((lowerPrice != null) && (higherPrice != null))
+            {
+                sortedList = sortedList.Where(s => (s.Price >= lowerPrice && s.Price <= higherPrice)).ToList();
+               
+                return View(sortedList);
             }
             
             if (id != null)
             {
-                sortedlist = sortedlist.Where(s => s.CategoryID == (id));
+                sortedList = sortedList.Where(s => s.CategoryID == (id)).ToList();
+
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    sortedlist = sortedlist.Where(s => (s.Name.Contains(searchString))
-                                                 || (s.Manufacturer.Contains(searchString)));
-                    return View(sortedlist.ToList());
+                    sortedList = sortedList.Where(s => (s.Name.Contains(searchString))
+                                                 || (s.Manufacturer.Contains(searchString))).ToList();
+                    return View(sortedList);
                 }
                 else
                 {
-                    return View(sortedlist.ToList());
+                    return View(sortedList);
                 }
             }
             else
             {
-                return View(sortedlist.ToList());
+                return View(sortedList);
             }
             
             
