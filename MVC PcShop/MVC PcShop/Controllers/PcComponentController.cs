@@ -32,6 +32,9 @@ namespace MVC_PcShop.Controllers
 
 
             ViewBag.CurrentFilter = searchString;
+            ViewBag.lowerPrice = lowerPrice;
+            ViewBag.higherPrice = higherPrice;
+
             if (id != null)
             {                
                 sortedList = sortedList.Where(s => s.CategoryID == id).ToList();

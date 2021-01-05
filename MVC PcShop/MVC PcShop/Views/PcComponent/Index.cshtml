@@ -16,7 +16,7 @@
 {
     <p>
         Pc Component: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        Price Range: @Html.TextBox("lowerPrice")  @Html.TextBox("higherPrice")
+        Price Range: @Html.TextBox("lowerPrice", ViewBag.lowerPrice as string)  @Html.TextBox("higherPrice", ViewBag.higherPrice as string)
         <input type="submit" value="Search" />
     </p>
 
@@ -71,4 +71,4 @@
 <br />
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 @Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, currentFilter = ViewBag.CurrentFilter }))
+    new { page, currentFilter = ViewBag.CurrentFilter, lowerPrice = ViewBag.lowerPrice, higherPrice = ViewBag.higherPrice}))
