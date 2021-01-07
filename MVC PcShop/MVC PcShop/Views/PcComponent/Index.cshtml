@@ -6,8 +6,13 @@
 @{
     ViewBag.Title = "PcComponents";
 }
+<br />
+<br />
 
-<h2>Pc Components</h2>
+<h1>Pc Components</h1>
+
+<div class="alert alert-success"><strong>Filter pc components!</strong></div>
+
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -17,12 +22,12 @@
     <p>
         Pc Component: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
         Price Range: @Html.TextBox("lowerPrice", ViewBag.lowerPrice as string)  @Html.TextBox("higherPrice", ViewBag.higherPrice as string)
-        <input type="submit" value="Search" />
+        <input type="submit" class="btn btn-success" value="Search" />
     </p>
 
 }
-<table class="table">
-    <tr>
+<table class="table table-hover">
+    <tr style="background-color :lightsalmon">
         <th>
             Category Name
         </th>
@@ -71,4 +76,4 @@
 <br />
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 @Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, currentFilter = ViewBag.CurrentFilter, lowerPrice = ViewBag.lowerPrice, higherPrice = ViewBag.higherPrice}))
+    new { page, currentFilter = ViewBag.CurrentFilter, lowerPrice = ViewBag.lowerPrice, higherPrice = ViewBag.higherPrice }))

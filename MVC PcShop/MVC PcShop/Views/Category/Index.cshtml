@@ -5,8 +5,12 @@
 @{
     ViewBag.Title = "Categories";
 }
+<br />
+<br />
 
-<h2>Categories</h2>
+<h1>Categories</h1>
+
+<div class="alert alert-success"><strong>Filter categories/Pick a category!</strong></div>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -15,13 +19,13 @@
 {
     <p>
         Category: @Html.TextBox("SearchStringCategory", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Search" />
+        <input type="submit" class="btn btn-success" value="Search" />
     </p>
 }
 
-<table class="table">
-    <tr>
-        <th>
+<table class="table table-hover">
+    <tr style="background-color :lightsalmon">
+        <th>            
             Category Name
         </th>
         <th></th>
@@ -31,7 +35,7 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(item.CategoryName, "Index", "PcComponent", new { id = item.ID }, null)
+                @Html.ActionLink(item.CategoryName, "Index", "PcComponent", new { id = item.ID }, null)    <span class="badge">3</span>
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |

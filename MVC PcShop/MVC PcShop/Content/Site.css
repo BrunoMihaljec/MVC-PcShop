@@ -1,24 +1,55 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    font-family: Lucida Handwriting, Cursive;
+    background-color: #FFEBCD;
+    color: black;
+   
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+container {
+    background-color: lightsalmon;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+h1 {
+    border-bottom: 3px solid lightsalmon;
+    font-family: Lucida Handwriting, Cursive;
+    color: lightsalmon;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+#main {
+    font-family: Lucida Handwriting, Cursive;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 0 4px 4px 4px;
+    color: black;
 }
+
+
+table {
+    font-family: Lucida Handwriting, Cursive;  
+    
+    border-width: 2px;
+    border-color: #000000;
+    border-style: solid;    
+}
+tr {
+    border-color: #000000;
+    border-style: solid;
+    border-width: 1px;
+}
+th {
+    border-color: #000000;
+    border-style: solid;
+    border-width: 1px;
+}
+
+input[type="text"], input[type="password"] {
+    background-color: #FFEBCD;
+    width: 120px;
+}
+
+input[type="submit"] {
+    border:1px;
+    border-color:black;
+    padding: 4px;
+}
+
