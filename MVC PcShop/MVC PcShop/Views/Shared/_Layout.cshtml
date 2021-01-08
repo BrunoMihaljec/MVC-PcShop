@@ -8,23 +8,21 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color:lightsalmon; border-style:none">
-        <div class="container" style="color:black">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Pc Shop", "Index", "Home", new { area = "" }, new { @class = "navbar-brand",style = "color: black" })
-            </div>
-            <div class="navbar-collapse collapse" style="color: black">
+    <div class="pos-f-t">
+        <div class="collapse" id="navbarToggleExternalContent">
+            <div class="bg-dark p-4">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Category", "Index", "Category",null, new { style = "color: black" })</li>                   
-                    <li>@Html.ActionLink("Pc Component", "Index", "PcComponent", null, new {style = "color: black" })</li>
+                    <li>@Html.ActionLink("Category", "Index", "Category", null, new { style = "color: lightsalmon" })</li>
+                    <li>@Html.ActionLink("Pc Component", "Index", "PcComponent", null, new { style = "color: lightsalmon" })</li>
                 </ul>
             </div>
         </div>
+        <nav class="navbar navbar-dark bg-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            @Html.ActionLink("Pc Shop", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style = "color: lightsalmon" })
+        </nav>
     </div>
     <div class="container body-content">
         @RenderBody()
