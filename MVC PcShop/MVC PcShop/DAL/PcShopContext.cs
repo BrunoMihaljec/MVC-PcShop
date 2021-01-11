@@ -23,7 +23,7 @@ namespace MVC_PcShop.DAL
         }
         
         public DbSet<PcComponent> PcComponents { get; set; }
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; }        
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

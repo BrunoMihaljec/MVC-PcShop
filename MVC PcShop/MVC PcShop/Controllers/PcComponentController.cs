@@ -44,7 +44,8 @@ namespace MVC_PcShop.Controllers
             {
                
                 sortedList = sortedList.Where(s => s.Name.ToLower().Contains(searchString.ToLower())
-                                                || s.Manufacturer.ToLower().Contains(searchString.ToLower())).ToList();                                             
+                                                || s.Manufacturer.ToLower().Contains(searchString.ToLower())
+                                                || s.Type.ToLower().Contains(searchString.ToLower())).ToList();
             }
            
 
@@ -170,6 +171,8 @@ namespace MVC_PcShop.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        
 
         protected override void Dispose(bool disposing)
         {
