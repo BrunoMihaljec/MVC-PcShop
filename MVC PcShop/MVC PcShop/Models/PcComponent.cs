@@ -23,5 +23,7 @@ namespace MVC_PcShop.Models
 
         public virtual Category Category { get; set; }
 
+        public byte[] Image { get; set; }
+
     }
 }

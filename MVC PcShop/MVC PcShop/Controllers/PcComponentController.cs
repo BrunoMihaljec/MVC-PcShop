@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
+using Microsoft.AspNetCore.Http;
 using MVC_PcShop.DAL;
 using MVC_PcShop.Models;
 using PagedList;
@@ -16,11 +20,13 @@ namespace MVC_PcShop.Controllers
     {
         private PcShopContext db = new PcShopContext();
 
+        
+
         // GET: PcComponent
         public ActionResult Index(int? id, string searchString, double? lowerPrice, double? higherPrice, int? page, string currentFilter)
         {
             IList<PcComponent> sortedList = db.PcComponents.ToList();
-
+          
             if (searchString != null)
             {
                 page = 1;
@@ -88,12 +94,16 @@ namespace MVC_PcShop.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Type,Name,Manufacturer,Price,CategoryID")] PcComponent pcComponent)
+        public ActionResult Create([Bind(Include = "Type,Name,Manufacturer,Price,CategoryID")] PcComponent pcComponent, HttpPostedFileBase file)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    byte[] buf = new byte[file.ContentLength];
+                    file.InputStream.Read(buf, 0, buf.Length);
+                    pcComponent.Image = buf;
+
                     db.PcComponents.Add(pcComponent);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -132,8 +142,9 @@ namespace MVC_PcShop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Type,Name,Manufacturer,Price,CategoryID")] PcComponent pcComponent)
         {
+
             if (ModelState.IsValid)
-            {
+            {         
                 db.Entry(pcComponent).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -171,8 +182,6 @@ namespace MVC_PcShop.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
-        
 
         protected override void Dispose(bool disposing)
         {
