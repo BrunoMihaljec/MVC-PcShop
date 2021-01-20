@@ -1,17 +1,24 @@
-﻿
+﻿<!DOCTYPE html>
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/bootstrap-responsive.css">
 
-<div style="border:1px solid grey ;padding:10px ;border-radius:25px ; width:140px">
-    <table style="border-color:#FFEBCD" >
-        <tr style="border:1px solid grey">
-            <td>
-                @Html.ActionLink("Category", "Index", "Category", null, new { style = "color: black" })
-            </td>
-        </tr>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div style="border:1px solid grey ;padding:10px ;border-radius:25px ">
+        <table style="border-color:#FFEBCD">
+            <tr style="border:1px solid grey">
+                <td style="padding-bottom:10px">
+                    @Html.ActionLink("Category", "Index", "Category", null, new { style = "color: black" })
+                </td>
+            </tr>
 
-        <tr>
-            <td>
-                @Html.ActionLink("Pc Component", "Index", "PcComponent", null, new { style = "color: black" })
-            </td>
-        </tr>
-    </table>
-</div>
+            <tr>
+                <td style="padding-top:10px">
+                    @Html.ActionLink("Pc Component", "Index", "PcComponent", null, new { style = "color: black" })
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
