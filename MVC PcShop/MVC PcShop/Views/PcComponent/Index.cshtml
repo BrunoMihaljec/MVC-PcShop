@@ -27,7 +27,7 @@
 @using (Html.BeginForm())
 {
     <p>
-        Pc Component: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        Pc Component: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
         Price Range: @Html.TextBox("lowerPrice", ViewBag.lowerPrice as string)  @Html.TextBox("higherPrice", ViewBag.higherPrice as string)
         <button type="submit" class="btn" style="color:black;background-color:#FFEBCD" ;>
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
